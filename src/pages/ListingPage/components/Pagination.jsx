@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { memo, useState } from 'react';
 import { Pagination } from 'antd';
 
-const Paginate = () => {
+const Paginate = ({ initialPage, pageLimit, totalRecords, onChangePage }) => {
   return (
     <div className='site-pagination'>
-      <Pagination defaultCurrent={1} total={20} />
+      <Pagination
+        current={initialPage}
+        defaultPageSize={pageLimit}
+        onChange={onChangePage}
+        simple={false}
+        total={totalRecords}
+      />
     </div>
   );
 };
 
-export default Paginate;
+export default memo(Paginate);
