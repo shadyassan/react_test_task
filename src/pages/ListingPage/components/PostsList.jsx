@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { List, Divider } from 'antd';
 import PostCard from './PostCard.jsx';
-import usePosts from '../../../hooks/usePosts';
 
-const PostsList = () => {
-  const { posts, dispatch } = usePosts();
-
+const PostsList = ({ posts }) => {
   return (
     <div className='site-card-wrapper'>
       <Divider orientation='left'>Articles</Divider>
