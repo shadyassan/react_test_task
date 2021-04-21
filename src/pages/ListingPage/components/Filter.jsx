@@ -1,12 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Row, Col, Select, Input } from 'antd';
 const { Option } = Select;
 
-const Filter = ({ onChange, users }) => {
-  const onChangeSelect = (value) => {
-    console.log(`selected ${value}`);
-  };
-
+const Filter = ({ onChange, onChangeSelect, users }) => {
   return (
     <div className='site-search'>
       <Row gutter={[20, 20]}>
@@ -16,15 +12,13 @@ const Filter = ({ onChange, users }) => {
         {users && (
           <Col span={12}>
             <Select
-              style={{ width: 200 }}
+              style={{ width: 250 }}
               placeholder='Выберите автора'
-              optionFilterProp='children'
-              onChange={onChangeSelect}
-              filterOption={(input, option) =>
-                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-              }>
+              onChange={onChangeSelect}>
               {users.map((item) => (
-                <Option value={item.id}>{item.name}</Option>
+                <Option key={item.id} value={item.id}>
+                  {item.name}
+                </Option>
               ))}
             </Select>
           </Col>
@@ -34,4 +28,4 @@ const Filter = ({ onChange, users }) => {
   );
 };
 
-export default Filter;
+export default memo(Filter);

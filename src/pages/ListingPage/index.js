@@ -6,38 +6,53 @@ import usePosts from '../../hooks/usePosts';
 
 const ListingPage = () => {
   const { posts, users } = usePosts();
-  const [items, setItems] = useState([]);
-  const [search, setSearch] = useState('');
+  const [{ search, author }, setFilter] = useState({
+    search: '',
+    author: '',
+  });
   const [current, setCurrent] = useState(1);
+  const [pageLimit, setPageLimit] = useState(10);
 
-  const pageLimit = 10;
   const startIndex = (current - 1) * pageLimit;
+  const endIndex = Math.min(startIndex + pageLimit, posts.length - 1);
 
-  const onSearch = ({ target }) => setSearch(target.value);
-
-  const onChange = (page) => {
-    setCurrent(page);
+  // Filter
+  const onSearch = ({ target }) =>
+    setFilter((prev) => ({ ...prev, search: target.value }));
+  const onChangeSelect = (value) => {
+    setFilter((prev) => {
+      return { ...prev, author: value };
+    });
   };
 
-  let newItems = posts;
+  const onChange = (page) => setCurrent(page);
+  const onShowSizeChange = (current, pageSize) => {
+    setCurrent(current);
+    setPageLimit(pageSize);
+  };
 
-  if (search) {
-    newItems = posts.filter((item) =>
-      item.title.toLowerCase().includes(search.toLowerCase())
-    );
+  let items = posts
+    .filter((item) => item.title.toLowerCase().includes(search.toLowerCase()))
+    .slice(startIndex, endIndex);
+
+  if (author) {
+    items = items.filter((item) => item.userId == author);
   }
-
-  newItems = posts.slice(startIndex, pageLimit);
 
   return (
     <div className='site-main'>
-      <Filter users={users} onChange={onSearch} />
-      <PostsList posts={newItems} />
+      <Filter
+        users={users}
+        onChange={onSearch}
+        onChangeSelect={onChangeSelect}
+      />
+      <PostsList posts={items} />
       <Paginate
         initialPage={current}
-        pageLimit={pageLimit || 10}
-        totalRecords={posts.length}
+        pageLimit={pageLimit}
+        totalRecords={items.length}
         onChangePage={onChange}
+        onShowSizeChange={onShowSizeChange}
       />
     </div>
   );

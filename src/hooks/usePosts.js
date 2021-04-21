@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../store/posts';
 import { getUsers } from '../store/users';
@@ -20,7 +20,18 @@ const usePosts = () => {
     }
   }, [users.length, dispatch]);
 
-  return { dispatch, posts, users };
+  const renderPosts = useMemo(
+    () =>
+      !users.length
+        ? []
+        : posts.map((post) => ({
+            ...post,
+            authorName: users.find((a) => a.id === post.userId).name,
+          })),
+    [users, posts]
+  );
+
+  return { dispatch, posts: renderPosts, users };
 };
 
 export default usePosts;
