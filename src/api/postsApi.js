@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { handleResponse, handleError } from './apiUtils';
 const baseUrl = 'https://jsonplaceholder.typicode.com/posts';
 
@@ -38,3 +39,11 @@ export function postDelete(id) {
     .then(handleResponse)
     .catch(handleError);
 }
+
+// export async function postDelete(id) {
+//   try {
+//     await axios.delete(`${baseUrl}/${id}`);
+//   } catch (err) {
+//     handleError(err);
+//   }
+// }

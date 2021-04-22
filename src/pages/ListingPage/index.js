@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import usePosts from '../../hooks/usePosts';
 import Filter from './components/Filter.jsx';
 import Paginate from './components/Pagination.jsx';
 import PostsList from './components/PostsList.jsx';
 import NewItem from './components/NewItem.jsx';
-import { addPost, deletePost } from '../../store/posts';
 import { FullSpinner } from '../../styles/app';
 
 const CURRENT = 1;
@@ -31,29 +29,11 @@ const ListingPage = () => {
     setFilter((prev) => ({ ...prev, author: value }));
   };
 
-  const addNewItem = async (item) => {
-    try {
-      await dispatch(addPost(item));
-    } catch (err) {
-      throw err;
-    }
-  };
-
   const onChange = (page) => setCurrent(page);
 
   const onShowSizeChange = (current, pageSize) => {
     setCurrent(current);
     setPageLimit(pageSize);
-  };
-
-  const onDelete = async (id) => {
-    try {
-      await dispatch(deletePost(id));
-      toast.success('Post deleted');
-    } catch (err) {
-      toast.error('Delete failled ' + err.message, { autoClose: false });
-      throw err;
-    }
   };
 
   let items = posts;
@@ -75,7 +55,7 @@ const ListingPage = () => {
 
   return (
     <div className='site-main'>
-      <NewItem addNewItem={addNewItem} />
+      <NewItem />
       <Filter
         users={users}
         onChange={onSearch}
@@ -85,7 +65,7 @@ const ListingPage = () => {
         <FullSpinner />
       ) : (
         <>
-          <PostsList posts={articles} onDelete={onDelete} />
+          <PostsList posts={articles} />
           <Paginate
             initialPage={current}
             pageLimit={pageLimit}

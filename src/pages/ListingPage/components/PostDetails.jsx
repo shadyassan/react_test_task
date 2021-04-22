@@ -20,14 +20,14 @@ const PostDetails = () => {
       setPost(post);
       setComments(comments);
       setLoading(false);
-    }, [setPost, seComments, setLoading]);
+    }, [setPost, setComments, setLoading]);
   } catch (err) {
     console.log(err);
   }
 
-  if (loading) {
-    return <FullSpinner />;
-  }
+  // if (loading) {
+  //   return <FullSpinner />;
+  // }
 
   return <Details post={post} comments={comments} />;
 };

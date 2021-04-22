@@ -26,7 +26,7 @@ module.exports = {
     filename: filename('js'),
   },
   devServer: {
-    overlay: true,
+    overlay: false,
     open: true,
     historyApiFallback: true,
   },

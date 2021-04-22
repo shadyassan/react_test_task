@@ -1,12 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  loading: 0,
-};
-
 const apiStatus = createSlice({
   name: 'apiStatus',
-  initialState,
+  initialState: {
+    loading: 0,
+  },
   reducers: {
     beginApiCall: (state, action) => {
       state.loading += 1;

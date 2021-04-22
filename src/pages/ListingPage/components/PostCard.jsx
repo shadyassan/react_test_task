@@ -1,8 +1,22 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { List, Button } from 'antd';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { deletePost } from '../../../store/posts';
 
-const PostCard = ({ item, onDelete }) => {
+const PostCard = ({ item }) => {
+  const dispatch = useDispatch();
+  const onDelete = async (id) => {
+    try {
+      await dispatch(deletePost(id));
+      toast.success('Post deleted');
+    } catch (err) {
+      toast.error('Delete failled - ' + err.message, { autoClose: false });
+      throw err;
+    }
+  };
+
   return (
     <List.Item>
       <div>

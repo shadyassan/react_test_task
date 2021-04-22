@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { List, Divider } from 'antd';
 import PostCard from './PostCard.jsx';
 
-const PostsList = ({ posts, onDelete }) => {
+const PostsList = ({ posts }) => {
   return (
     <div className='site-card-wrapper'>
       <Divider orientation='left'>Articles</Divider>
@@ -10,7 +10,7 @@ const PostsList = ({ posts, onDelete }) => {
         size='large'
         bordered
         dataSource={posts}
-        renderItem={(item) => <PostCard onDelete={onDelete} item={item} />}
+        renderItem={(item) => <PostCard item={item} />}
       />
     </div>
   );

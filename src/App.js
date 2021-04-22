@@ -17,8 +17,8 @@ const PostDetails = lazy(() =>
 
 const App = () => {
   return (
-    <Suspense fallback={<FullSpinner />}>
-      <Wrapper>
+    <Wrapper>
+      <Suspense fallback={<FullSpinner />}>
         <Route exact path='/'>
           <ListingPage />
         </Route>
@@ -30,10 +30,9 @@ const App = () => {
         <Route path='/post/:id'>
           <PostDetails />
         </Route>
-
-        <ToastContainer autoClose={3000} hideProgressBar />
-      </Wrapper>
-    </Suspense>
+      </Suspense>
+      <ToastContainer autoClose={3000} hideProgressBar />
+    </Wrapper>
   );
 };
 

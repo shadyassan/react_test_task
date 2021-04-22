@@ -1,13 +1,39 @@
-import React, { memo } from 'react';
+import React, { useState, memo } from 'react';
 import { Form, Input, Button } from 'antd';
 import { generate as id } from 'shortid';
 import { uniqueId } from 'lodash';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { addPost } from '../../../store/posts';
 
-const NewItem = ({ addNewItem }) => {
+const initialState = {
+  userId: uniqueId(),
+  id: id(),
+  title: '',
+};
+
+const NewItem = () => {
+  const [post, setPost] = useState(initialState);
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
 
-  const handleSubmit = ({ title }) => {
-    addNewItem({ userId: uniqueId(), id: id(), title });
+  const addNewItem = async (item) => {
+    try {
+      await dispatch(addPost(item));
+      toast.success('Post added');
+    } catch (err) {
+      toast.error('Add failled - ' + err.message, { autoClose: false });
+      throw err;
+    }
+  };
+
+  const handleSubmit = () => {
+    addNewItem(post);
+  };
+
+  const onChange = ({ target }) => {
+    const { value } = target;
+    setPost((prev) => ({ ...prev, title: value }));
   };
 
   return (
@@ -17,6 +43,7 @@ const NewItem = ({ addNewItem }) => {
           style={{
             width: 594,
           }}
+          onChange={onChange}
         />
       </Form.Item>
       <Form.Item>
