@@ -15,6 +15,7 @@ const Filter = ({ onChange, onChangeSelect, users }) => {
               style={{ width: 250 }}
               placeholder='Выберите автора'
               onChange={onChangeSelect}>
+              <Option>Все авторы</Option>
               {users.map((item) => (
                 <Option key={item.id} value={item.id}>
                   {item.name}

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Card } from 'antd';
 import useAsync from '../../../hooks/useAsync';
 import { fetchById } from '../../../api/postsApi';
+import { fetchCommentsById } from '../../../api/commentsApi';
 import { FullSpinner } from '../../../styles/app';
 
 const PostDetails = () => {

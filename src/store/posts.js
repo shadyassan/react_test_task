@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAll } from '../api/postsApi';
+import { fetchAll, postAdd, postDelete, postUpdate } from '../api/postsApi';
+import { beginApiCall, apiCallSuccess } from './apiStatus';
 
 const slice = createSlice({
   name: 'posts',
@@ -8,11 +9,19 @@ const slice = createSlice({
     error: null,
   },
   reducers: {
-    postAdd: (state, action) => {
-      state.items.push(action.payload);
+    postAdding: (state, action) => {
+      state.items.unshift(action.payload);
+    },
+    postUpdated: (state, action) => {
+      const index = state.items.findIndex((c) => c.id === action.payload.id);
+      state.items[index] = action.payload;
     },
     postsReceived: (state, action) => {
       state.items = action.payload;
+    },
+    postDeleted: (state, action) => {
+      const index = state.items.findIndex((c) => c.id === action.payload);
+      state.items.splice(index, 1);
     },
     onError: (state, action) => {
       state.error = action.payload;
@@ -21,10 +30,16 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-
-export const { postsReceived, onError } = slice.actions;
+export const {
+  postAdding,
+  postUpdated,
+  postsReceived,
+  postDeleted,
+  onError,
+} = slice.actions;
 
 export const getPosts = () => async (dispatch) => {
+  dispatch(beginApiCall());
   try {
     const posts = await fetchAll();
     dispatch(postsReceived(posts));
@@ -32,5 +47,37 @@ export const getPosts = () => async (dispatch) => {
     dispatch(onError(err));
     throw err;
   } finally {
+    dispatch(apiCallSuccess());
   }
+};
+
+export const addPost = (post) => async (dispatch) => {
+  dispatch(beginApiCall());
+  try {
+    const savedPost = await postAdd(post);
+    dispatch(postAdding(savedPost.data));
+  } catch (err) {
+    dispatch(onError(err));
+    throw err;
+  } finally {
+    dispatch(apiCallSuccess());
+  }
+};
+
+export const updatePost = (post) => async (dispatch) => {
+  dispatch(beginApiCall());
+  try {
+    const savedPost = await postUpdate(post);
+    dispatch(postUpdated(savedPost.data));
+  } catch (err) {
+    dispatch(onError(err));
+    throw err;
+  } finally {
+    dispatch(apiCallSuccess());
+  }
+};
+
+export const deletePost = (id) => async (dispatch) => {
+  dispatch(postDeleted(id));
+  return postDelete(id);
 };

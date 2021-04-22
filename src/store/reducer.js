@@ -1,4 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import posts from './posts';
-import users from './users';
-export default combineReducers({ posts, users });
+import entities from './entities';
+import apiStatus from './apiStatus';
+
+export default combineReducers({ entities, apiStatus });

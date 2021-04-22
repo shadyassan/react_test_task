@@ -5,8 +5,8 @@ import { getUsers } from '../store/users';
 
 const usePosts = () => {
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts.items);
-  const users = useSelector((state) => state.users.items);
+  const posts = useSelector((state) => state.entities.posts.items);
+  const users = useSelector((state) => state.entities.users.items);
 
   useEffect(() => {
     if (posts.length === 0) {

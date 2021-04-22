@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo } from 'react';
 import { Pagination } from 'antd';
 
 const Paginate = ({
@@ -14,9 +14,9 @@ const Paginate = ({
         current={initialPage}
         defaultPageSize={pageLimit}
         onChange={onChangePage}
-        pageSizeOptions={[5, 10, 15, 20]}
         onShowSizeChange={onShowSizeChange}
         total={totalRecords}
+        pageSizeOptions={[5, 10, 15, 20]}
       />
     </div>
   );

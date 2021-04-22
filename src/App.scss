@@ -1,12 +1,25 @@
 .container {
   margin: 50px auto;
-  max-width: 750px;
+  max-width: 1200px;
 }
 
+.ant-form,
 .site-card-wrapper {
   
   &:not(:last-child) {
     margin-bottom: 30px;
+  }
+
+}
+
+.ant-list-item {
+
+  .ant-btn {
+
+    &:not(:last-child) {
+      margin-right: 15px;
+    }
+
   }
 
 }
