@@ -1,5 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import 'antd/dist/antd.css';
 import './App.scss';
 import { FullSpinner } from './styles/app';
@@ -28,6 +30,8 @@ const App = () => {
         <Route path='/post/:id'>
           <PostDetails />
         </Route>
+
+        <ToastContainer autoClose={3000} hideProgressBar />
       </Wrapper>
     </Suspense>
   );

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import usePosts from '../../hooks/usePosts';
 import Filter from './components/Filter.jsx';
 import Paginate from './components/Pagination.jsx';
@@ -48,7 +49,9 @@ const ListingPage = () => {
   const onDelete = async (id) => {
     try {
       await dispatch(deletePost(id));
+      toast.success('Post deleted');
     } catch (err) {
+      toast.error('Delete failled ' + err.message, { autoClose: false });
       throw err;
     }
   };

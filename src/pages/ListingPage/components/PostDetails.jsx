@@ -1,33 +1,59 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card } from 'antd';
-import useAsync from '../../../hooks/useAsync';
 import { fetchById } from '../../../api/postsApi';
 import { fetchCommentsById } from '../../../api/commentsApi';
 import { FullSpinner } from '../../../styles/app';
 
 const PostDetails = () => {
   const { id } = useParams();
-  const { run, data, isLoading, isSuccess, reset } = useAsync();
+  const [post, setPost] = useState('');
+  const [comments, setComments] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    run(fetchById(id));
-    return () => reset();
-  }, [id, reset, run]);
+  try {
+    useEffect(async () => {
+      let [post, comments] = await Promise.all([
+        fetchById(id),
+        fetchCommentsById(id),
+      ]);
+      setPost(post);
+      setComments(comments);
+      setLoading(false);
+    }, [setPost, seComments, setLoading]);
+  } catch (err) {
+    console.log(err);
+  }
 
-  if (isLoading) {
+  if (loading) {
     return <FullSpinner />;
   }
 
-  return isSuccess && <Details data={data} />;
+  return <Details post={post} comments={comments} />;
 };
 
-const Details = ({ data }) => {
+const Details = ({ post, comments }) => {
   return (
-    <Card title={data.title} bordered={false}>
-      <p>{data.body}</p>
-    </Card>
+    <>
+      {post && (
+        <Card title={post.title} bordered={false}>
+          <p>{post.body}</p>
+        </Card>
+      )}
+      {comments && (
+        <ul>
+          {comments.map((item) => {
+            return (
+              <li>
+                {item.name} - {item.email}
+                <p>{item.body}</p>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </>
   );
 };
 
-export default PostDetails;
+export default memo(PostDetails);

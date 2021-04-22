@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Form, Input, Button } from 'antd';
 import { generate as id } from 'shortid';
 import { uniqueId } from 'lodash';
@@ -28,4 +28,4 @@ const NewItem = ({ addNewItem }) => {
   );
 };
 
-export default NewItem;
+export default memo(NewItem);

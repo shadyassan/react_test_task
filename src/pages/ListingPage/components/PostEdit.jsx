@@ -41,7 +41,7 @@ const PostEdit = () => {
                 type='text'
                 className='ant-input'
                 style={{ width: '590px' }}
-                value={post.title}
+                value={post.title || ''}
                 onChange={handleChange}
               />
             </div>
