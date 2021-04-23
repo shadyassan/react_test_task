@@ -17,11 +17,19 @@ const slice = createSlice({
       state.items[index] = action.payload;
     },
     postsReceived: (state, action) => {
-      state.items = action.payload;
+      const items = action.payload.map((item) => ({ ...item, edit: false }));
+      state.items = items;
     },
     postDeleted: (state, action) => {
       const index = state.items.findIndex((c) => c.id === action.payload);
       state.items.splice(index, 1);
+    },
+    edit: (state, action) => {
+      const index = state.items.findIndex((c) => c.id === action.payload);
+      state.items[index] = {
+        ...state.items[index],
+        edit: !state.items[index].edit,
+      };
     },
     onError: (state, action) => {
       state.error = action.payload;
@@ -55,7 +63,7 @@ export const addPost = (post) => async (dispatch) => {
   dispatch(beginApiCall());
   try {
     const savedPost = await postAdd(post);
-    dispatch(postAdding(savedPost.data));
+    dispatch(postAdding(savedPost));
   } catch (err) {
     dispatch(onError(err));
     throw err;
@@ -68,7 +76,7 @@ export const updatePost = (post) => async (dispatch) => {
   dispatch(beginApiCall());
   try {
     const savedPost = await postUpdate(post);
-    dispatch(postUpdated(savedPost.data));
+    dispatch(postUpdated(savedPost));
   } catch (err) {
     dispatch(onError(err));
     throw err;

@@ -1,64 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import { Redirect, useParams } from 'react-router-dom';
-import usePosts from '../../../hooks/usePosts';
+import React, { useEffect, useRef, memo } from 'react';
+import { Input, Button } from 'antd';
+import { toast } from 'react-toastify';
 import { updatePost } from '../../../store/posts';
 
-const PostEdit = () => {
-  const { id } = useParams();
-  const [post, setPost] = useState({});
-  const [redirect, setRedirect] = useState(false);
-  const { posts, dispatch } = usePosts();
+const PostEdit = ({ item, dispatch, handleEdit }) => {
+  const updateRef = useRef(null);
 
-  const handleSubmit = () => {
-    dispatch(updatePost(post));
-    setRedirect(true);
-  };
-
-  const handleChange = (e) => {
-    const { value } = e.target;
-    setPost((prev) => ({
-      ...prev,
-      title: value,
-    }));
+  const sharedProps = {
+    style: {
+      width: 'auto',
+      flexGrow: 1,
+      marginRight: '15px',
+    },
+    ref: updateRef,
   };
 
   useEffect(() => {
-    const post = posts.find((c) => c.id === parseInt(id));
-    setPost(post);
-  }, [posts, id]);
+    updateRef.current.focus();
+  }, [item.id]);
 
-  if (redirect) {
-    return <Redirect to='/' noThrow />;
-  }
+  const handleUpdate = async (id) => {
+    const title = updateRef.current.input.value.trim();
+
+    if (!title) return;
+
+    try {
+      await dispatch(updatePost({ ...item, title }));
+      toast.success('Post Updated');
+    } catch (err) {
+      toast.error('Updated Failled - ' + err.message, { autoClose: false });
+      throw err;
+    }
+
+    handleEdit(id);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.which === 13) {
+      handleUpdate(e.target.dataset.id);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [item.id]);
 
   return (
-    <form className='ant-form ant-form-inline' onSubmit={handleSubmit}>
-      <div className='ant-row ant-form-item'>
-        <div className='ant-col ant-form-item-control'>
-          <div className='ant-form-item-control-input'>
-            <div className='ant-form-item-control-input-content'>
-              <input
-                type='text'
-                className='ant-input'
-                style={{ width: '590px' }}
-                value={post.title || ''}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className='ant-row ant-form-item'>
-        <div className='ant-col ant-form-item-control'>
-          <div className='ant-form-item-control-input'>
-            <div className='ant-form-item-control-input-content'>
-              <button className='ant-btn ant-btn-primary'>Submit</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
+    <>
+      <Input data-id={item.id} {...sharedProps} />
+      <Button onClick={() => handleUpdate(item.id)} type='danger'>
+        Save
+      </Button>
+      <Button onClick={() => handleEdit(item.id)} type='primary'>
+        No
+      </Button>
+    </>
   );
 };
 
-export default PostEdit;
+export default memo(PostEdit);

@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { Row, Col, Select, Input } from 'antd';
 const { Option } = Select;
 
-const Filter = ({ onChange, onChangeSelect, users }) => {
+const Filter = ({ users, onChange, onChangeSelect }) => {
   return (
     <div className='site-search'>
       <Row gutter={[20, 20]}>

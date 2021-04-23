@@ -1,5 +1,5 @@
-import { handleResponse, handleError } from './apiUtils';
-const baseUrl = 'http://localhost:3001/comments';
+import { serverUrl, handleResponse, handleError } from './apiUtils';
+const baseUrl = `${serverUrl}/comments`;
 
 export function fetchCommentsById(id) {
   return fetch(`${baseUrl}/${id}`).then(handleResponse).catch(handleError);

@@ -1,3 +1,5 @@
+export const serverUrl = 'http://localhost:3001'; // https://jsonplaceholder.typicode.com
+
 export async function handleResponse(response) {
   if (response.ok) return response.json();
   if (response.status === 400) {
