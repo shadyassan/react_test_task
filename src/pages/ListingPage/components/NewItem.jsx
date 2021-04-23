@@ -1,43 +1,40 @@
 import React, { useState, memo } from 'react';
 import { Form, Input, Button } from 'antd';
-import { generate as id } from 'shortid';
-import { uniqueId } from 'lodash';
+import { nanoid } from 'nanoid';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { addPost } from '../../../store/posts';
 
-const initialState = {
-  userId: uniqueId(),
-  id: id(),
-  title: '',
-};
-
 const NewItem = () => {
-  const [post, setPost] = useState(initialState);
-  const dispatch = useDispatch();
   const [form] = Form.useForm();
+  const [title, setTitle] = useState('');
+  const dispatch = useDispatch();
 
-  const addNewItem = async (item) => {
+  const onChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const addNewItem = async () => {
+    if (!title.trim()) return;
+
+    const item = {
+      userId: 1,
+      id: nanoid(),
+      title,
+      body: '',
+    };
+
     try {
       await dispatch(addPost(item));
-      toast.success('Post added');
+      toast.success('Post Added');
     } catch (err) {
-      toast.error('Add failled - ' + err.message, { autoClose: false });
+      toast.error('Add Failled - ' + err.message, { autoClose: false });
       throw err;
     }
   };
 
-  const handleSubmit = () => {
-    addNewItem(post);
-  };
-
-  const onChange = ({ target }) => {
-    const { value } = target;
-    setPost((prev) => ({ ...prev, title: value }));
-  };
-
   return (
-    <Form onFinish={handleSubmit} layout='inline' form={form}>
+    <Form onFinish={addNewItem} layout='inline' form={form}>
       <Form.Item name='title'>
         <Input
           style={{

@@ -26,7 +26,7 @@ const usePosts = () => {
         ? []
         : posts.map((post) => ({
             ...post,
-            authorName: users.find((a) => a.id === post.userId).name,
+            authorName: users.find((a) => a.id === parseInt(post.userId)).name,
           })),
     [users, posts]
   );

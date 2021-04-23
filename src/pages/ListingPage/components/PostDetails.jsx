@@ -22,12 +22,12 @@ const PostDetails = () => {
       setLoading(false);
     }, [setPost, setComments, setLoading]);
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 
-  // if (loading) {
-  //   return <FullSpinner />;
-  // }
+  if (loading) {
+    return <FullSpinner />;
+  }
 
   return <Details post={post} comments={comments} />;
 };
@@ -35,21 +35,19 @@ const PostDetails = () => {
 const Details = ({ post, comments }) => {
   return (
     <>
+      <h2>Post</h2>
       {post && (
         <Card title={post.title} bordered={false}>
           <p>{post.body}</p>
         </Card>
       )}
+      <h2>Comments</h2>
       {comments && (
         <ul>
-          {comments.map((item) => {
-            return (
-              <li>
-                {item.name} - {item.email}
-                <p>{item.body}</p>
-              </li>
-            );
-          })}
+          <li>
+            {comments.name} - {comments.email}
+            <p>{comments.body}</p>
+          </li>
         </ul>
       )}
     </>
