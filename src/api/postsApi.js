@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { handleResponse, handleError } from './apiUtils';
-const baseUrl = 'https://jsonplaceholder.typicode.com/posts';
+// const baseUrl = 'https://jsonplaceholder.typicode.com/posts';
+const baseUrl = 'http://localhost:3001/posts';
 
 export function fetchAll() {
   return fetch(baseUrl).then(handleResponse).catch(handleError);
