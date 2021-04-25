@@ -4,16 +4,16 @@ const { Option } = Select;
 
 const Filter = ({ users, onChange, onChangeSelect }) => {
   return (
-    <div className='site-search'>
+    <div className="site-search">
       <Row gutter={[20, 20]}>
-        <Col className='gutter-row' span={12}>
-          <Input.Search allowClear placeholder='Найти...' onChange={onChange} />
+        <Col className="gutter-row" span={12}>
+          <Input.Search allowClear placeholder="Найти..." onChange={onChange} />
         </Col>
         {users && (
           <Col span={12}>
             <Select
               style={{ width: 250 }}
-              placeholder='Выберите автора'
+              placeholder="Выберите автора"
               onChange={onChangeSelect}>
               <Option>Все авторы</Option>
               {users.map((item) => (

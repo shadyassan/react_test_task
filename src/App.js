@@ -5,7 +5,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'antd/dist/antd.css';
 import './App.scss';
 import { FullSpinner } from './styles/app';
+import TopBar from './components/shared/TopBar';
 import Wrapper from './components/shared/Wrapper';
+import TaskPage from './pages/AboutPage';
 
 const ListingPage = lazy(() => import('./pages/ListingPage'));
 const PostDetails = lazy(() =>
@@ -15,11 +17,15 @@ const PostDetails = lazy(() =>
 const App = () => {
   return (
     <Wrapper>
+      <TopBar />
       <Suspense fallback={<FullSpinner />}>
-        <Route exact path='/'>
+        <Route exact path="/">
           <ListingPage />
         </Route>
-        <Route path='/post/:id'>
+        <Route exact path="/task">
+          <TaskPage />
+        </Route>
+        <Route path="/post/:id">
           <PostDetails />
         </Route>
       </Suspense>

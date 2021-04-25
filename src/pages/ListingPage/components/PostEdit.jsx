@@ -6,18 +6,32 @@ import { updatePost } from '../../../store/posts';
 const PostEdit = ({ item, dispatch, handleEdit }) => {
   const updateRef = useRef(null);
 
-  const sharedProps = {
+  const inputProps = {
     style: {
       width: 'auto',
       flexGrow: 1,
       marginRight: '15px',
     },
     ref: updateRef,
+    'data-id': item.id,
   };
 
   useEffect(() => {
     updateRef.current.focus();
-  }, [item.id]);
+  }, []);
+
+  const handleKeyDown = (e) => {
+    if (e.which === 13) {
+      handleUpdate(e.target.dataset.id);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const handleUpdate = async (id) => {
     const title = updateRef.current.input.value.trim();
@@ -35,26 +49,13 @@ const PostEdit = ({ item, dispatch, handleEdit }) => {
     handleEdit(id);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.which === 13) {
-      handleUpdate(e.target.dataset.id);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [item.id]);
-
   return (
     <>
-      <Input data-id={item.id} {...sharedProps} />
-      <Button onClick={() => handleUpdate(item.id)} type='danger'>
+      <Input {...inputProps} />
+      <Button onClick={() => handleUpdate(item.id)} type="danger">
         Save
       </Button>
-      <Button onClick={() => handleEdit(item.id)} type='primary'>
+      <Button onClick={() => handleEdit(item.id)} type="primary">
         No
       </Button>
     </>

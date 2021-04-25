@@ -1,8 +1,7 @@
 import React, { useState, useEffect, memo } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card } from 'antd';
-import { fetchById } from '../../../api/postsApi';
-import { fetchCommentsById } from '../../../api/commentsApi';
+import { Comment, List, Avatar } from 'antd';
+import { fetchById, fetchCommentsById } from '../../../api/postsApi';
 import { FullSpinner } from '../../../styles/app';
 
 const PostDetails = () => {
@@ -35,20 +34,36 @@ const PostDetails = () => {
 const Details = ({ post, comments }) => {
   return (
     <>
-      <h2>Post</h2>
       {post && (
-        <Card title={post.title} bordered={false}>
+        <>
+          <h1 style={{ textTransform: 'capitalize' }}>{post.title}</h1>
           <p>{post.body}</p>
-        </Card>
+        </>
       )}
-      <h2>Comments</h2>
       {comments && (
-        <ul>
-          <li>
-            {comments.name} - {comments.email}
-            <p>{comments.body}</p>
-          </li>
-        </ul>
+        <>
+          <h3>Comments</h3>
+          <List
+            className="comment-list"
+            header={`${comments.length} replies`}
+            itemLayout="horizontal"
+            dataSource={comments}
+            renderItem={(item) => (
+              <li>
+                <Comment
+                  author={`${item.name} - ${item.email}`}
+                  avatar={
+                    <Avatar
+                      src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                      alt={item.name}
+                    />
+                  }
+                  content={<p>{item.body}</p>}
+                />
+              </li>
+            )}
+          />
+        </>
       )}
     </>
   );

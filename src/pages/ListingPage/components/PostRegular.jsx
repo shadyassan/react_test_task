@@ -17,7 +17,7 @@ const PostRegular = ({ item, dispatch, handleEdit }) => {
 
   return (
     <>
-      <div>
+      <div className="article">
         <h2>
           <Link to={`/post/${item.id}`}>{item.title}</Link>
         </h2>
@@ -28,10 +28,10 @@ const PostRegular = ({ item, dispatch, handleEdit }) => {
         )}
       </div>
       <div>
-        <Button onClick={() => handleEdit(item.id)} type='primary'>
+        <Button onClick={() => handleEdit(item.id)} type="primary">
           Edit
         </Button>
-        <Button onClick={() => onDelete(item.id)} type='primary' danger>
+        <Button onClick={() => onDelete(item.id)} type="primary" danger>
           Remove
         </Button>
       </div>

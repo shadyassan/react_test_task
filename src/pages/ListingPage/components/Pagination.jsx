@@ -9,7 +9,7 @@ const Paginate = ({
   onShowSizeChange,
 }) => {
   return (
-    <div className='site-pagination'>
+    <div className="site-pagination">
       <Pagination
         current={initialPage}
         defaultPageSize={pageLimit}

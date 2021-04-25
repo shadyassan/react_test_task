@@ -34,8 +34,8 @@ const NewItem = () => {
   };
 
   return (
-    <Form onFinish={addNewItem} layout='inline' form={form}>
-      <Form.Item name='title'>
+    <Form onFinish={addNewItem} layout="inline" form={form}>
+      <Form.Item name="title">
         <Input
           style={{
             width: 594,
@@ -44,7 +44,7 @@ const NewItem = () => {
         />
       </Form.Item>
       <Form.Item>
-        <Button htmlType='submit' type='primary'>
+        <Button htmlType="submit" type="primary">
           Add item
         </Button>
       </Form.Item>

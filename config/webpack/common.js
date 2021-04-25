@@ -1,5 +1,4 @@
 const paths = require('../paths');
-
 const webpack = require('webpack');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -64,6 +63,10 @@ module.exports = {
           },
           'sass-loader',
         ],
+      },
+      {
+        test: /\.md$/,
+        use: ['html-loader', 'markdown-loader'],
       },
       {
         test: /\.(jpe?g|png|gif|svg|eot|ttf|woff2?)$/i,

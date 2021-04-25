@@ -52,7 +52,7 @@ const ListingPage = () => {
   let articles = items.slice(startIndex, endIndex);
 
   return (
-    <div className='site-main'>
+    <div className="site-main">
       <NewItem />
       <Filter
         users={users}
