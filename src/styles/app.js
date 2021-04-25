@@ -15,13 +15,13 @@ export function FullSpinner() {
     <div
       style={{
         fontSize: '4em',
-        height: '100vh',
+        height: '50vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Spinner aria-label='loading' />
+      <Spinner aria-label="loading" />
     </div>
   );
 }

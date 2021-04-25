@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, memo } from 'react';
+import React, { useEffect, useRef, useCallback, memo } from 'react';
+import PropTypes from 'prop-types';
 import { Input, Button } from 'antd';
 import { toast } from 'react-toastify';
 import { updatePost } from '../../../store/posts';
@@ -20,34 +21,37 @@ const PostEdit = ({ item, dispatch, handleEdit }) => {
     updateRef.current.focus();
   }, []);
 
-  const handleKeyDown = (e) => {
-    if (e.which === 13) {
-      handleUpdate(e.target.dataset.id);
-    }
-  };
-
   useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.which === 13) {
+        handleUpdate(e.target.dataset.id);
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [handleUpdate]);
 
-  const handleUpdate = async (id) => {
-    const title = updateRef.current.input.value.trim();
+  const handleUpdate = useCallback(
+    async (id) => {
+      const title = updateRef.current.input.value.trim();
 
-    if (!title) return;
+      if (!title) return;
 
-    try {
-      await dispatch(updatePost({ ...item, title }));
-      toast.success('Post Updated');
-    } catch (err) {
-      toast.error('Updated Failled - ' + err.message, { autoClose: false });
-      throw err;
-    }
+      try {
+        await dispatch(updatePost({ ...item, title }));
+        toast.success('Post Updated');
+      } catch (err) {
+        toast.error('Updated Failled - ' + err.message, { autoClose: false });
+        throw err;
+      }
 
-    handleEdit(id);
-  };
+      handleEdit(id);
+    },
+    [dispatch, handleEdit, item]
+  );
 
   return (
     <>
@@ -60,6 +64,14 @@ const PostEdit = ({ item, dispatch, handleEdit }) => {
       </Button>
     </>
   );
+};
+
+PostEdit.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+  }),
+  dispatch: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
 };
 
 export default memo(PostEdit);

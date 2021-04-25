@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { List, Divider } from 'antd';
 import PostCard from './PostCard.jsx';
 
@@ -14,6 +15,10 @@ const PostsList = ({ posts }) => {
       />
     </div>
   );
+};
+
+PostsList.propTypes = {
+  posts: PropTypes.array.isRequired,
 };
 
 export default memo(PostsList);

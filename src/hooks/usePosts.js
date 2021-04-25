@@ -7,6 +7,7 @@ const usePosts = () => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.entities.posts.items);
   const users = useSelector((state) => state.entities.users.items);
+  const loading = useSelector((state) => state.apiStatus.loading);
 
   useEffect(() => {
     if (posts.length === 0) {
@@ -31,7 +32,7 @@ const usePosts = () => {
     [users, posts]
   );
 
-  return { dispatch, posts: renderPosts, users };
+  return { dispatch, posts: renderPosts, users, loading };
 };
 
 export default usePosts;

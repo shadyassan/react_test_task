@@ -1,7 +1,8 @@
 export const serverUrl = 'https://jsonplaceholder.typicode.com'; // json-server on localhost - http://localhost:3001
 
 // Axios
-export function handleResponse(response) {
+export async function handleResponse(response) {
+  // await sleep(2000);
   return response.data;
 }
 
@@ -16,6 +17,10 @@ export function handleError(error) {
   }
   console.error(error.config);
   console.error(error.toJSON());
+}
+
+function sleep(delay = 1000) {
+  return new Promise((resolve) => setTimeout(resolve, delay));
 }
 
 // Fetch

@@ -24,12 +24,9 @@ const slice = createSlice({
       const index = state.items.findIndex((c) => c.id === action.payload);
       state.items.splice(index, 1);
     },
-    edit: (state, action) => {
-      const index = state.items.findIndex((c) => c.id === action.payload);
-      state.items[index] = {
-        ...state.items[index],
-        edit: !state.items[index].edit,
-      };
+    postEdit: (state, action) => {
+      const post = state.items.find((c) => c.id === action.payload);
+      post.edit = !post.edit;
     },
     onError: (state, action) => {
       state.error = action.payload;
@@ -60,28 +57,22 @@ export const getPosts = () => async (dispatch) => {
 };
 
 export const addPost = (post) => async (dispatch) => {
-  dispatch(beginApiCall());
   try {
     const savedPost = await postAdd(post);
     dispatch(postAdding(savedPost));
   } catch (err) {
     dispatch(onError(err));
     throw err;
-  } finally {
-    dispatch(apiCallSuccess());
   }
 };
 
 export const updatePost = (post) => async (dispatch) => {
-  dispatch(beginApiCall());
   try {
     const savedPost = await postUpdate(post);
     dispatch(postUpdated(savedPost));
   } catch (err) {
     dispatch(onError(err));
     throw err;
-  } finally {
-    dispatch(apiCallSuccess());
   }
 };
 

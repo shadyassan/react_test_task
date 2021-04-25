@@ -12,7 +12,7 @@ const TopBar = () => {
 
   useEffect(() => {
     setCurrent(pathname);
-  }, [[pathname]]);
+  }, [pathname]);
 
   return (
     <div className="top-bar">

@@ -2,6 +2,37 @@ import axios from 'axios';
 import { serverUrl, handleResponse, handleError } from './apiUtils';
 const baseUrl = `${serverUrl}/posts`;
 
+// Axios
+export function fetchAll() {
+  return axios.get(baseUrl).then(handleResponse).catch(handleError);
+}
+
+export function fetchById(id) {
+  return axios.get(`${baseUrl}/${id}`).then(handleResponse).catch(handleError);
+}
+
+export function fetchCommentsById(id) {
+  return axios
+    .get(`${baseUrl}/${id}/comments`)
+    .then(handleResponse)
+    .catch(handleError);
+}
+
+export function postAdd(post) {
+  return axios.post(baseUrl, post).then(handleResponse).catch(handleError);
+}
+
+export function postUpdate(post) {
+  return axios
+    .put(`${baseUrl}/${post.id}`, post)
+    .then(handleResponse)
+    .catch(handleError);
+}
+
+export function postDelete(id) {
+  return axios.delete(`${baseUrl}/${id}`).catch(handleError);
+}
+
 // Fetch
 // export function fetchAll() {
 //   return fetch(baseUrl).then(handleResponse).catch(handleError);
@@ -46,34 +77,3 @@ const baseUrl = `${serverUrl}/posts`;
 //     .then(handleResponse)
 //     .catch(handleError);
 // }
-
-// Axios
-export function fetchAll() {
-  return axios.get(baseUrl).then(handleResponse).catch(handleError);
-}
-
-export function fetchById(id) {
-  return axios.get(`${baseUrl}/${id}`).then(handleResponse).catch(handleError);
-}
-
-export function fetchCommentsById(id) {
-  return axios
-    .get(`${baseUrl}/${id}/comments`)
-    .then(handleResponse)
-    .catch(handleError);
-}
-
-export function postAdd(post) {
-  return axios.post(baseUrl, post).then(handleResponse).catch(handleError);
-}
-
-export function postUpdate(post) {
-  return axios
-    .put(`${baseUrl}/${post.id}`, post)
-    .then(handleResponse)
-    .catch(handleError);
-}
-
-export function postDelete(id) {
-  return axios.delete(`${baseUrl}/${id}`).catch(handleError);
-}

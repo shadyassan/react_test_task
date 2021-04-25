@@ -14,12 +14,17 @@
   }
 }
 
+.ant-menu {
+  font-size: 16px;
+}
+
 .top-bar,
 .ant-form,
+.site-search,
 .site-card-wrapper {
   
   &:not(:last-child) {
-    margin-bottom: 30px;
+    margin-bottom: 60px;
   }
 
 }

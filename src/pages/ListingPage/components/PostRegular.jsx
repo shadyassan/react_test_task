@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -37,6 +38,16 @@ const PostRegular = ({ item, dispatch, handleEdit }) => {
       </div>
     </>
   );
+};
+
+PostRegular.propTypes = {
+  item: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    authorName: PropTypes.string.isRequired,
+  }),
+  dispatch: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
 };
 
 export default memo(PostRegular);

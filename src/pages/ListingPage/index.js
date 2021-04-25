@@ -4,12 +4,13 @@ import Filter from './components/Filter.jsx';
 import Paginate from './components/Pagination.jsx';
 import PostsList from './components/PostsList.jsx';
 import NewItem from './components/NewItem.jsx';
+import { FullSpinner } from '../../styles/app';
 
 const CURRENT = 1;
 const PAGELIMIT = 5;
 
 const ListingPage = () => {
-  const { posts, users } = usePosts();
+  const { posts, users, loading } = usePosts();
   const [{ search, author }, setFilter] = useState({
     search: '',
     author: '',
@@ -17,11 +18,9 @@ const ListingPage = () => {
   const [current, setCurrent] = useState(CURRENT);
   const [pageLimit, setPageLimit] = useState(PAGELIMIT);
 
-  // Filter
   const onSearch = ({ target }) =>
     setFilter((prev) => ({ ...prev, search: target.value }));
 
-  // Change
   const onChangeSelect = (value) => {
     setCurrent(CURRENT);
     setFilter((prev) => ({ ...prev, author: value }));
@@ -49,8 +48,6 @@ const ListingPage = () => {
   const startIndex = (current - 1) * pageLimit;
   const endIndex = Math.min(startIndex + pageLimit, items.length);
 
-  let articles = items.slice(startIndex, endIndex);
-
   return (
     <div className="site-main">
       <NewItem />
@@ -59,7 +56,11 @@ const ListingPage = () => {
         onChange={onSearch}
         onChangeSelect={onChangeSelect}
       />
-      <PostsList posts={articles} />
+      {loading ? (
+        <FullSpinner />
+      ) : (
+        <PostsList posts={items.slice(startIndex, endIndex)} />
+      )}
       <Paginate
         initialPage={current}
         pageLimit={pageLimit}

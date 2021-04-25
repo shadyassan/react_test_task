@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { Pagination } from 'antd';
 
 const Paginate = ({
@@ -20,6 +21,14 @@ const Paginate = ({
       />
     </div>
   );
+};
+
+Paginate.propTypes = {
+  initialPage: PropTypes.number.isRequired,
+  pageLimit: PropTypes.number.isRequired,
+  totalRecords: PropTypes.number.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  onShowSizeChange: PropTypes.func.isRequired,
 };
 
 export default memo(Paginate);

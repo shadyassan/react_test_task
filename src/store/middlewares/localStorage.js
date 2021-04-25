@@ -6,7 +6,7 @@ const localStorageMiddleware = ({ getState }) => (next) => (action) => {
     'posts/postDeleted',
     'posts/postUpdated',
     'posts/postAdding',
-    'posts/edit',
+    'posts/postEdit',
   ];
 
   if (actions.includes(result.type)) {

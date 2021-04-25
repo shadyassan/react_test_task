@@ -1,5 +1,6 @@
 import React, { useState, memo } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Divider, Form, Input, Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { nanoid } from 'nanoid';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -22,6 +23,7 @@ const NewItem = () => {
       id: nanoid(),
       title,
       body: '',
+      edit: false,
     };
 
     try {
@@ -35,6 +37,7 @@ const NewItem = () => {
 
   return (
     <Form onFinish={addNewItem} layout="inline" form={form}>
+      <Divider orientation="left">Add New Item</Divider>
       <Form.Item name="title">
         <Input
           style={{
@@ -44,9 +47,12 @@ const NewItem = () => {
         />
       </Form.Item>
       <Form.Item>
-        <Button htmlType="submit" type="primary">
-          Add item
-        </Button>
+        <Button
+          shape="circle"
+          icon={<PlusOutlined />}
+          htmlType="submit"
+          type="primary"
+        />
       </Form.Item>
     </Form>
   );

@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import { List } from 'antd';
 import { useDispatch } from 'react-redux';
 import PostRegular from './PostRegular';
@@ -8,7 +9,7 @@ const PostCard = ({ item }) => {
   const dispatch = useDispatch();
 
   const handleEdit = (id) => {
-    dispatch({ type: 'posts/edit', payload: parseInt(id) });
+    dispatch({ type: 'posts/postEdit', payload: parseInt(id) });
   };
 
   return (
@@ -20,6 +21,12 @@ const PostCard = ({ item }) => {
       )}
     </List.Item>
   );
+};
+
+PostCard.propTypes = {
+  item: PropTypes.shape({
+    edit: PropTypes.bool.isRequired,
+  }),
 };
 
 export default memo(PostCard);
