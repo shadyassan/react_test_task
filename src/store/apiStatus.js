@@ -6,10 +6,10 @@ const apiStatus = createSlice({
     loading: 0,
   },
   reducers: {
-    beginApiCall: (state, action) => {
+    beginApiCall: (state) => {
       state.loading += 1;
     },
-    apiCallSuccess: (state, action) => {
+    apiCallSuccess: (state) => {
       state.loading -= 1;
     },
   },

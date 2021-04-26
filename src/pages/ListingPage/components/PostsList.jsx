@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { List, Divider } from 'antd';
-import PostCard from './PostCard.jsx';
+import PostCard from './PostCard';
 
 const PostsList = ({ posts }) => {
   return (

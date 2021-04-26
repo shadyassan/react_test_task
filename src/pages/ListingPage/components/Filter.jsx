@@ -9,7 +9,7 @@ const Filter = ({ users, onChange, onChangeSelect }) => {
       <Divider orientation="left">Filter</Divider>
       <Row gutter={[20, 20]}>
         <Col className="gutter-row" span={12}>
-          <Input.Search allowClear placeholder="Найти..." onChange={onChange} />
+          <Input.Search placeholder="Найти..." onChange={onChange} />
         </Col>
         {users && (
           <Col span={12}>

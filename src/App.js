@@ -9,7 +9,7 @@ import Wrapper from './components/shared/Wrapper';
 import TaskPage from './pages/AboutPage';
 
 import ListingPage from './pages/ListingPage';
-import PostDetails from './pages/ListingPage/components/PostDetails.jsx';
+import PostDetails from './pages/ListingPage/components/PostDetails';
 
 const App = () => {
   return (

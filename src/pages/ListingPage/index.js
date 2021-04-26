@@ -1,39 +1,29 @@
 import React, { useState } from 'react';
 import usePosts from '../../hooks/usePosts';
-import Filter from './components/Filter.jsx';
-import Paginate from './components/Pagination.jsx';
-import PostsList from './components/PostsList.jsx';
-import NewItem from './components/NewItem.jsx';
+import Filter from './components/Filter';
+import Paginate from './components/Pagination';
+import PostsList from './components/PostsList';
+import NewItem from './components/NewItem';
 import { FullSpinner } from '../../styles/app';
-
-const CURRENT = 1;
-const PAGELIMIT = 5;
+import { CURRENT, PAGE_LIMIT } from '../../constants';
 
 const ListingPage = () => {
   const { posts, users, loading } = usePosts();
+
+  let items = posts;
+
   const [{ search, author }, setFilter] = useState({
     search: '',
     author: '',
   });
-  const [current, setCurrent] = useState(CURRENT);
-  const [pageLimit, setPageLimit] = useState(PAGELIMIT);
 
-  const onSearch = ({ target }) =>
-    setFilter((prev) => ({ ...prev, search: target.value }));
+  const [{ current, pageLimit }, setData] = useState({
+    current: CURRENT,
+    pageLimit: PAGE_LIMIT,
+  });
 
-  const onChangeSelect = (value) => {
-    setCurrent(CURRENT);
-    setFilter((prev) => ({ ...prev, author: value }));
-  };
-
-  const onChange = (page) => setCurrent(page);
-
-  const onShowSizeChange = (current, pageSize) => {
-    setCurrent(current);
-    setPageLimit(pageSize);
-  };
-
-  let items = posts;
+  let startIndex = (current - 1) * pageLimit;
+  let endIndex = Math.min(startIndex + pageLimit, items.length);
 
   if (search) {
     items = items.filter((item) =>
@@ -45,15 +35,26 @@ const ListingPage = () => {
     items = items.filter((item) => item.userId == author);
   }
 
-  const startIndex = (current - 1) * pageLimit;
-  const endIndex = Math.min(startIndex + pageLimit, items.length);
+  const onChange = ({ target }) => {
+    setData((prev) => ({ ...prev, current: 1 }));
+    setFilter((prev) => ({ ...prev, search: target.value }));
+  };
+
+  const onChangeSelect = (value) => {
+    setData((prev) => ({ ...prev, current: 1 }));
+    setFilter((prev) => ({ ...prev, author: value }));
+  };
+
+  const setPage = (current) => setData((prev) => ({ ...prev, current }));
+  const onShowSizeChange = (current, pageLimit) =>
+    setData((prev) => ({ ...prev, current, pageLimit }));
 
   return (
     <div className="site-main">
-      <NewItem />
+      <NewItem users={users} />
       <Filter
         users={users}
-        onChange={onSearch}
+        onChange={onChange}
         onChangeSelect={onChangeSelect}
       />
       {loading ? (
@@ -61,13 +62,15 @@ const ListingPage = () => {
       ) : (
         <PostsList posts={items.slice(startIndex, endIndex)} />
       )}
-      <Paginate
-        initialPage={current}
-        pageLimit={pageLimit}
-        totalRecords={items.length}
-        onChangePage={onChange}
-        onShowSizeChange={onShowSizeChange}
-      />
+      {items.length > 1 && (
+        <Paginate
+          totalRecords={items.length}
+          current={current}
+          pageLimit={pageLimit}
+          setPage={setPage}
+          onShowSizeChange={onShowSizeChange}
+        />
+      )}
     </div>
   );
 };

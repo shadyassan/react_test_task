@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import { Pagination } from 'antd';
 
 const Paginate = ({
-  initialPage,
+  current,
   pageLimit,
   totalRecords,
-  onChangePage,
+  setPage,
   onShowSizeChange,
 }) => {
   return (
     <div className="site-pagination">
       <Pagination
-        current={initialPage}
+        current={current}
         defaultPageSize={pageLimit}
-        onChange={onChangePage}
+        onChange={setPage}
         onShowSizeChange={onShowSizeChange}
         total={totalRecords}
         pageSizeOptions={[5, 10, 15, 20]}
@@ -24,10 +24,10 @@ const Paginate = ({
 };
 
 Paginate.propTypes = {
-  initialPage: PropTypes.number.isRequired,
+  current: PropTypes.number.isRequired,
   pageLimit: PropTypes.number.isRequired,
   totalRecords: PropTypes.number.isRequired,
-  onChangePage: PropTypes.func.isRequired,
+  setPage: PropTypes.func.isRequired,
   onShowSizeChange: PropTypes.func.isRequired,
 };
 
