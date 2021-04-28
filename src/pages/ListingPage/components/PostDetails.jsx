@@ -1,32 +1,13 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { Comment, List, Avatar } from 'antd';
-import { fetchById, fetchCommentsById } from '../../../api/postsApi';
 import { FullSpinner } from '../../../styles/app';
+import useDetails from '../../../hooks/useDetails';
 
 const PostDetails = () => {
   const { id } = useParams();
-  const [post, setPost] = useState('');
-  const [comments, setComments] = useState('');
-  const [loading, setLoading] = useState(true);
-
-  try {
-    useEffect(() => {
-      (async function () {
-        let [post, comments] = await Promise.all([
-          fetchById(id),
-          fetchCommentsById(id),
-        ]);
-        setPost(post);
-        setComments(comments);
-        setLoading(false);
-      })();
-    }, [id]);
-  } catch (err) {
-    console.error(err);
-    setLoading(false);
-  }
+  const { loading, post, comments } = useDetails(id);
 
   if (loading) {
     return <FullSpinner />;
